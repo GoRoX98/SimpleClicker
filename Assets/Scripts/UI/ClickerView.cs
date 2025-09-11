@@ -6,7 +6,7 @@ public class ClickerView : MonoBehaviour
 {
     [SerializeField] private Image _clickObj;
     private GameData _data;
-    private int _difficult;
+    private float _difficult;
 
     public static event Action OnClick;
 
@@ -17,20 +17,16 @@ public class ClickerView : MonoBehaviour
 
     public void Click()
     {
-        if (_difficult > 1)
+        if (_difficult > 0)
             ActiveClick();
-        else if (_difficult > 0)
-        {
-            ActiveClick();
-            UpdateClickObject();
-        }
-        else
+        
+        if (_difficult < 0)
             UpdateClickObject();
     }
 
     private void ActiveClick()
     {
-        _difficult--;
+        _difficult -= GameManager.Instance.ClickPower;
         OnClick?.Invoke();
     }
 

@@ -5,9 +5,14 @@ public class GameManager : MonoBehaviour
 {
     private Player _player;
     [SerializeField] private GameData _data;
+    [SerializeField] private float _clickPower = 1f;
 
     public GameData Data => _data;
+    public float ClickPower => _clickPower * _player.ClickKf;
+    public float PlayerBalance => _player.Points;
     public static GameManager Instance { get; private set; }
+
+    public event Action AddPoint;
 
     private void Awake()
     {
@@ -40,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void Click()
     {
-        throw new NotImplementedException();
+        AddPoint?.Invoke();
     }
 
     private bool LoadPlayerData(out float kf, out float points)

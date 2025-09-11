@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -25,6 +26,21 @@ public class GameManager : MonoBehaviour
             _player = new();
         else
             _player = new(kf, points);
+    }
+
+    private void OnEnable()
+    {
+        ClickerView.OnClick += Click;
+    }
+
+    private void OnDisable()
+    {
+        ClickerView.OnClick -= Click;
+    }
+
+    private void Click()
+    {
+        throw new NotImplementedException();
     }
 
     private bool LoadPlayerData(out float kf, out float points)

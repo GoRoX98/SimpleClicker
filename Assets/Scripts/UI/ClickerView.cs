@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class ClickerView : MonoBehaviour
     private GameData _data;
     private int _difficult;
 
+    public static event Action OnClick;
 
     private void Awake()
     {
@@ -16,19 +18,25 @@ public class ClickerView : MonoBehaviour
     public void Click()
     {
         if (_difficult > 1)
-            _difficult--;
+            ActiveClick();
         else if (_difficult > 0)
         {
-            _difficult--;
+            ActiveClick();
             UpdateClickObject();
         }
         else
             UpdateClickObject();
     }
 
+    private void ActiveClick()
+    {
+        _difficult--;
+        OnClick?.Invoke();
+    }
+
     private void UpdateClickObject()
     {
-        _clickObj.sprite = _data.StoneSprites[Random.Range(0, _data.StoneSprites.Count)];
+        _clickObj.sprite = _data.StoneSprites[UnityEngine.Random.Range(0, _data.StoneSprites.Count)];
         _difficult = _data.GetDifficult;
     }
 }

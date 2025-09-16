@@ -13,6 +13,7 @@ public class ClickerView : MonoBehaviour
     private void Awake()
     {
         _data = GameManager.Instance.Data;
+        UpdateClickObject();
     }
 
     public void Click()
@@ -20,7 +21,7 @@ public class ClickerView : MonoBehaviour
         if (_difficult > 0)
             ActiveClick();
         
-        if (_difficult < 0)
+        if (_difficult <= 0)
             UpdateClickObject();
     }
 

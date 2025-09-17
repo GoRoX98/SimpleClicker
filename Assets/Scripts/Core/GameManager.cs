@@ -27,10 +27,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (LoadPlayerData(out float kf, out float points))
+        if (LoadPlayerData(out PlayerData data))
             _player = new();
         else
-            _player = new(kf, points);
+            _player = new(data);
+
+        Save();
     }
 
     private void OnEnable()
@@ -48,16 +50,22 @@ public class GameManager : MonoBehaviour
         AddPoint?.Invoke();
     }
 
-    private bool LoadPlayerData(out float kf, out float points)
+    private void Save()
+    {
+        string save = JsonUtility.ToJson(_player.Data);
+        PlayerPrefs.SetString("PlayerData", save);
+    }
+
+    private bool LoadPlayerData(out PlayerData data)
     {
         bool isNewGame = PlayerPrefs.GetInt("NewGame", 0) == 0;
-        kf = 0; points = 0;
+        data = new();
+
         if (isNewGame)
             return isNewGame;
         else
         {
-            kf = PlayerPrefs.GetFloat("ClickKf", 1);
-            points = PlayerPrefs.GetFloat("PointsBalance", 0);
+            data = JsonUtility.FromJson<PlayerData>(PlayerPrefs.GetString("PlayerData"));
             return isNewGame;
         }
     }

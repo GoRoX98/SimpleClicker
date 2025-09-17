@@ -1,21 +1,21 @@
 public class Player
 {
-    private float _clickKf = 1f;
-    private float _points = 0;
+    private PlayerData _data;
 
-    public float ClickKf => _clickKf;
-    public float Points => _points;
+    public float ClickKf => _data.ClickKf;
+    public float Points => _data.Points;
+    public PlayerData Data => _data;
 
     public Player() 
     {
         GameManager.Instance.AddPoint += OnAddPoint;
+        _data = new(0, 0);
     }
 
-    public Player(float clickKf, float points)
+    public Player(PlayerData data)
     {
         GameManager.Instance.AddPoint += OnAddPoint;
-        _clickKf = clickKf;
-        _points = points;
+        _data = data;
     }
 
     ~Player()
@@ -25,6 +25,6 @@ public class Player
 
     private void OnAddPoint()
     {
-        _points++;
+        _data.Points++;
     }
 }
